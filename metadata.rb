@@ -7,6 +7,9 @@ long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version '0.1.0'
 chef_version '>= 12.14' if respond_to?(:chef_version)
 
+supports 'ubuntu', '>= 16.04'
+supports 'centos', '>= 7'
+
 # The `issues_url` points to the location where issues for this cookbook are
 # tracked.  A `View Issues` link will be displayed on this cookbook's page when
 # uploaded to a Supermarket.
@@ -18,3 +21,5 @@ issues_url 'https://github.com/gamegos/cesi-cookbook/issues'
 # a Supermarket.
 #
 source_url 'https://github.com/gamegos/cesi-cookbook'
+
+depends 'git'
