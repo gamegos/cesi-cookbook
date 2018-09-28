@@ -8,6 +8,16 @@ include_recipe 'git::default'
 cesi_user = node['cesi']['user']
 cesi_group = node['cesi']['group']
 cesi_setup_path = node['cesi']['setup_path']
+cesi_database = node['cesi']['conf']['database']
+cesi_activity_log = node['cesi']['conf']['activity_log']
+cesi_nodes = node['cesi']['conf']['nodes']
+
+unless cesi_database.start_with?('/')
+  cesi_database = "#{cesi_setup_path}/#{cesi_database}"
+end
+unless cesi_activity_log.start_with?('/')
+  cesi_activity_log = "#{cesi_setup_path}/#{cesi_activity_log}"
+end
 
 group cesi_group
 
@@ -81,4 +91,26 @@ pip_requirements 'cesi.requirements' do
   path "#{cesi_setup_path}/requirements.txt"
   user cesi_user
   group cesi_group
+end
+
+# Generate cesi.conf file
+template "#{cesi_setup_path}/cesi.conf" do
+  source 'cesi.conf.erb'
+  mode 0644
+  owner cesi_user
+  group cesi_group
+  variables(
+    'environments': node['cesi']['conf']['environments'],
+    'nodes': cesi_nodes,
+    'database': cesi_database,
+    'activity_log': cesi_activity_log,
+    'host': node['cesi']['conf']['host'],
+    'port': node['cesi']['conf']['port'],
+    'name': node['cesi']['conf']['name'],
+    'theme': node['cesi']['conf']['theme'],
+    'debug': node['cesi']['conf']['debug'],
+    'auto_reload': node['cesi']['conf']['auto_reload'],
+    'admin_username': node['cesi']['conf']['admin_username'],
+    'admin_password': node['cesi']['conf']['admin_password']
+  )
 end

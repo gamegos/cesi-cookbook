@@ -1,0 +1,30 @@
+[cesi]
+database = <%= @database %>
+activity_log = <%= @activity_log %>
+host = <%= @host %>
+port = <%= @port %>
+name = <%= @name %>
+theme = <%= @theme %>
+debug = <%= @debug %>
+auto_reload = <%= @auto_reload %>
+admin_username = <%= @admin_username %>
+admin_password = <%= @admin_password %>
+
+<% if @nodes.respond_to?("each") %>
+  <% @nodes.each do |n| %>
+[node:<%= n[:name] %>]
+username = <%= n[:username] %>
+password = <%= n[:password] %>
+host = <%= n[:host] %>
+port = <%= n[:port] %>
+
+  <% end %>
+<% end %>
+
+<% if @environments.respond_to?("each") %>
+  <% @environments.each do |environment| %>
+[environment:<%= environment[:name] %>]
+members = <%= environment[:members] %>
+
+  <% end %>
+<% end %>
