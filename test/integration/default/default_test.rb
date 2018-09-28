@@ -32,10 +32,10 @@ unless os.windows?
 
   describe file('/opt/cesi/cesi/run.py') do
     it { should exist }
-    its('mode') { should eq '0775' }
+    its('mode') { should cmp '0755' }
   end
 
-  describe command('/opt/cesi/cesi.conf') do
+  describe file('/opt/cesi/cesi.conf') do
     it { should exist }
   end
 
