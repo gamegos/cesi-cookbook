@@ -6,13 +6,58 @@
 # found at http://inspec.io/docs/reference/resources/
 
 unless os.windows?
-  # This is an example test, replace with your own test.
-  describe user('root'), :skip do
+  describe group('cesi') do
     it { should exist }
   end
-end
 
-# This is an example test, replace it with your own test.
-describe port(80), :skip do
-  it { should_not be_listening }
+  describe user('cesi') do
+    it { should exist }
+    its('group') { should eq 'cesi' }
+    its('home') { should eq '/opt/cesi' }
+  end
+
+  describe file('/opt/cesi') do
+    it { should exist }
+    its('type') { should eq :directory }
+  end
+
+  describe file('/opt/cesi/.git') do
+    it { should exist }
+    its('type') { should eq :directory }
+  end
+
+  describe file('/opt/cesi/cesi/run.py') do
+    it { should exist }
+    its('mode') { should eq '0775' }
+  end
+
+  describe command('/opt/cesi/cesi.conf') do
+    it { should exist }
+  end
+
+  describe command('pip3') do
+    it { should exist }
+  end
+
+  describe command('python3') do
+    it { should exist }
+  end
+
+  describe file('/etc/systemd/system/cesi.service') do
+    it { should exist }
+  end
+
+  describe service('cesi') do
+    it { should be_enabled }
+    it { should be_running }
+  end
+
+  describe port(5000), :skip do
+    it { should be_listening }
+  end
+
+  describe command('curl http://localhost:5000') do
+    its(:stdout) { should match /Cesi/ }
+  end
+
 end
