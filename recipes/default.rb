@@ -93,6 +93,27 @@ pip_requirements 'cesi.requirements' do
   group cesi_group
 end
 
+# Search All Supervisor Nodes
+supervisor_nodes = []
+all_supervisor_nodes = search('node', "role:#{node['cesi']['supervisors_rolename']}")
+
+unless all_supervisor_nodes.empty?
+  all_supervisor_nodes.each do |n|
+    supervisor_node = {
+      'name': n['hostname'],
+      'username': n['supervisor']['inet_http_server']['inet_username'],
+      'password': n['supervisor']['inet_http_server']['inet_password'],
+      'host': n['fqdn'],
+      'port': n['supervisor']['inet_http_server']['inet_port'].split(':')[1],
+    }
+    supervisor_nodes.push(supervisor_node)
+  end
+end
+
+unless supervisor_nodes.empty?
+  cesi_nodes = supervisor_nodes
+end
+
 # Generate cesi.conf file
 template "#{cesi_setup_path}/cesi.conf" do
   source 'cesi.conf.erb'

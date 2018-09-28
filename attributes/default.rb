@@ -30,9 +30,11 @@ default['cesi']['conf']['nodes'] = [{
   'host': 'localhost',
   'port': '9001',
 }, {
-  'name': 'node1',
+  'name': 'node2',
   'username': '',
   'password': '',
   'host': 'localhost',
   'port': '9002',
 }]
+
+default['cesi']['supervisors_rolename'] = 'supervisor'
