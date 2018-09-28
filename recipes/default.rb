@@ -135,3 +135,8 @@ template "#{cesi_setup_path}/cesi.conf" do
     'admin_password': node['cesi']['conf']['admin_password']
   )
 end
+
+poise_service 'cesi' do
+  command "#{cesi_setup_path}/.venv/bin/python3 #{cesi_setup_path}/cesi/run.py --config #{cesi_setup_path}/cesi.conf"
+  user cesi_user
+end

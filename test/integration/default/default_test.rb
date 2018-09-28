@@ -47,10 +47,6 @@ unless os.windows?
     it { should exist }
   end
 
-  describe file('/etc/systemd/system/cesi.service') do
-    it { should exist }
-  end
-
   describe service('cesi') do
     it { should be_enabled }
     it { should be_running }

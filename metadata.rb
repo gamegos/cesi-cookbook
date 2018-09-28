@@ -24,3 +24,4 @@ source_url 'https://github.com/gamegos/cesi-cookbook'
 
 depends 'git'
 depends 'poise-python'
+depends 'poise-service'
