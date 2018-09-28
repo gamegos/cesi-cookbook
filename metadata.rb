@@ -23,3 +23,4 @@ issues_url 'https://github.com/gamegos/cesi-cookbook/issues'
 source_url 'https://github.com/gamegos/cesi-cookbook'
 
 depends 'git'
+depends 'poise-python'
