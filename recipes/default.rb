@@ -3,7 +3,6 @@
 # Recipe:: default
 #
 # Copyright:: 2018, The Authors, All Rights Reserved.
-include_recipe 'git::default'
 
 cesi_user = node['cesi']['user']
 cesi_group = node['cesi']['group']
@@ -34,20 +33,33 @@ directory cesi_setup_path do
   recursive true
 end
 
-git cesi_setup_path do
-  repository node['cesi']['git']['repository']
-  revision node['cesi']['git']['revision']
-  action :sync
+remote_file "#{cesi_setup_path}/cesi.tar.gz" do
+  source node['cesi']['release']['url']
+  owner cesi_user
+  group cesi_group
+  not_if { File.exist?("#{cesi_setup_path}/cesi.tar.gz") }
+end
+
+execute 'extract-cesi-release' do
+  user cesi_user
+  group cesi_group
+  cwd cesi_setup_path
+  command 'tar xzvf cesi.tar.gz -C . --strip-components=1'
+  not_if { File.exist?("#{cesi_setup_path}/cesi") }
 end
 
 cesi_ui_path = "#{cesi_setup_path}/cesi/ui"
 
 remote_file "#{cesi_ui_path}/build.tar" do
-  source 'https://github.com/gamegos/cesi/releases/download/v2.0/build-ui.tar'
+  source node['cesi']['release']['build-ui']
+  owner cesi_user
+  group cesi_group
   not_if { File.exist?("#{cesi_ui_path}/build.tar") }
 end
 
-execute 'extract-tar-file' do
+execute 'extract-build-ui-tar-file' do
+  user cesi_user
+  group cesi_group
   cwd cesi_ui_path
   command 'tar -xvf build.tar'
   not_if { File.exist?("#{cesi_ui_path}/build") }
