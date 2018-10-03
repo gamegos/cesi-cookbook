@@ -2,8 +2,9 @@
 default['cesi']['user'] = 'cesi'
 default['cesi']['group'] = 'cesi'
 default['cesi']['setup_path'] = '/opt/cesi'
-default['cesi']['git']['repository'] = 'https://github.com/gamegos/cesi.git'
-default['cesi']['git']['revision'] = 'master'
+default['cesi']['version'] = '2.0'
+default['cesi']['release']['url'] = "https://github.com/gamegos/cesi/archive/v#{default['cesi']['version']}.tar.gz"
+default['cesi']['release']['build-ui'] = "https://github.com/gamegos/cesi/releases/download/v#{default['cesi']['version']}/build-ui.tar"
 
 default['cesi']['conf'] = {
   'database': 'userinfo.db',
@@ -12,7 +13,7 @@ default['cesi']['conf'] = {
   'port': '5000',
   'name': 'CeSI',
   'theme': 'superhero',
-  'debug': 'True',
+  'debug': 'False',
   'auto_reload': 'False',
   'admin_username': 'admin',
   'admin_password': 'admin',
