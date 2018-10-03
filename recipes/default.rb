@@ -40,6 +40,19 @@ git cesi_setup_path do
   action :sync
 end
 
+cesi_ui_path = "#{cesi_setup_path}/cesi/ui"
+
+remote_file "#{cesi_ui_path}/build.tar" do
+  source 'https://github.com/gamegos/cesi/releases/download/v2.0/build-ui.tar'
+  not_if { File.exist?("#{cesi_ui_path}/build.tar") }
+end
+
+execute 'extract-tar-file' do
+  cwd cesi_ui_path
+  command 'tar -xvf build.tar'
+  not_if { File.exist?("#{cesi_ui_path}/build") }
+end
+
 # Install python3
 case node['platform_family']
 when 'debian'
