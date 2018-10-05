@@ -27,7 +27,7 @@ This cookbook installs and configures [CeSI](https://github.com/gamegos/cesi).
 - `['cesi']['user']` - Run cesi with this user - Default value is 'cesi'
 - `['cesi']['group']` - Run cesi with this group - Default value is 'cesi'
 - `['cesi']['setup_path']` - Download CESI to this directory - Default value is '/opt/cesi'
-- `['cesi']['version']` - Install this version of CeSI - Default value is '2.0'
+- `['cesi']['version']` - Install this version of CeSI - Default value is '2.2'
 - `['cesi']['conf']['database']` - Create sqlite database in this path - Default value is 'userinfo.db'
 - `['cesi']['conf']['activity_log']` - File path for CeSI activity logs - Default value is 'activity_log'
 - `['cesi']['conf']['host']` - Host of the cesi application - Default value is '0.0.0.0'.
@@ -37,7 +37,5 @@ This cookbook installs and configures [CeSI](https://github.com/gamegos/cesi).
 - `['cesi']['conf']['admin_username']` - Set admin username - Default value is 'admin'
 - `['cesi']['conf']['admin_password']` - Set password of admin user - Default value is 'admin'
 
-- `['cesi']['conf']['nodes']` - Array - Define all nodes - Default value is https://github.com/gamegos/cesi-cookbook/blob/master/attributes/default.rb#L27
-- `['cesi']['conf']['environments']` - Array - Define all environments - Default value is https://github.com/gamegos/cesi-cookbook/blob/master/attributes/default.rb#L22
-- `['cesi']['supervisors_rolename']` - Instead of typing all node configurations, find all nodes on the chef server with rolename. 
-
+- `['cesi']['conf']['nodes']` - Array - Define all nodes - Default value is https://github.com/gamegos/cesi-cookbook/blob/master/attributes/default.rb#L23
+- `['cesi']['supervisors_rolename']` - Instead of typing all node configurations, find all nodes on the chef server with rolename.

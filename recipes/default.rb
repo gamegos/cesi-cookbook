@@ -126,6 +126,7 @@ unless all_supervisor_nodes.empty?
   all_supervisor_nodes.each do |n|
     supervisor_node = {
       'name': n['hostname'],
+      'environment': '',
       'username': n['supervisor']['inet_http_server']['inet_username'],
       'password': n['supervisor']['inet_http_server']['inet_password'],
       'host': n['fqdn'],
@@ -146,7 +147,6 @@ template "#{cesi_setup_path}/cesi.conf" do
   owner cesi_user
   group cesi_group
   variables(
-    'environments': node['cesi']['conf']['environments'],
     'nodes': cesi_nodes,
     'database': cesi_database,
     'activity_log': cesi_activity_log,

@@ -13,18 +13,11 @@ admin_password = <%= @admin_password %>
 <% if @nodes.respond_to?("each") %>
   <% @nodes.each do |n| %>
 [node:<%= n[:name] %>]
+environment = <%= n[:environment] %>
 username = <%= n[:username] %>
 password = <%= n[:password] %>
 host = <%= n[:host] %>
 port = <%= n[:port] %>
-
-  <% end %>
-<% end %>
-
-<% if @environments.respond_to?("each") %>
-  <% @environments.each do |environment| %>
-[environment:<%= environment[:name] %>]
-members = <%= environment[:members] %>
 
   <% end %>
 <% end %>

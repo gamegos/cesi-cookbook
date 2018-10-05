@@ -2,9 +2,9 @@
 default['cesi']['user'] = 'cesi'
 default['cesi']['group'] = 'cesi'
 default['cesi']['setup_path'] = '/opt/cesi'
-default['cesi']['version'] = '2.0'
+default['cesi']['version'] = '2.2'
 default['cesi']['release']['url'] = "https://github.com/gamegos/cesi/archive/v#{default['cesi']['version']}.tar.gz"
-default['cesi']['release']['build-ui'] = "https://github.com/gamegos/cesi/releases/download/v#{default['cesi']['version']}/build-ui.tar"
+default['cesi']['release']['build-ui'] = "https://github.com/gamegos/cesi/releases/download/v#{default['cesi']['version']}/build-ui.tar.gz"
 
 default['cesi']['conf'] = {
   'database': 'userinfo.db',
@@ -19,23 +19,23 @@ default['cesi']['conf'] = {
   'admin_password': 'admin',
 }
 
-default['cesi']['conf']['environments'] = [{
-  'name': 'example',
-  'members': 'node1,node2',
-}]
-
-default['cesi']['conf']['nodes'] = [{
+default['cesi']['conf']['nodes'] = []
+=begin
+[{
   'name': 'node1',
+  'environment': 'aws',
   'username': '',
   'password': '',
   'host': 'localhost',
   'port': '9001',
 }, {
   'name': 'node2',
+  'environment': 'azure',
   'username': '',
   'password': '',
   'host': 'localhost',
   'port': '9002',
 }]
+=end
 
 default['cesi']['supervisors_rolename'] = 'supervisor'
