@@ -23,6 +23,16 @@ unless cesi_activity_log.start_with?('/')
   cesi_activity_log = "#{cesi_release_setup_path}/#{cesi_activity_log}"
 end
 
+is_cesi_installed_once = File.exist?(cesi_setup_path)
+is_this_cesi_release_installed = File.exist?(cesi_release_setup_path)
+
+# Stop cesi service, when we are upgrading cesi.
+if is_cesi_installed_once && !is_this_cesi_release_installed
+  service 'cesi' do
+    action [ :disable, :stop ]
+  end
+end
+
 group cesi_group
 
 user cesi_user do
@@ -30,12 +40,6 @@ user cesi_user do
   shell '/bin/nologin'
   gid cesi_group
   home cesi_setup_path
-end
-
-if File.exist?(cesi_setup_path) && !File.exist?(cesi_release_setup_path)
-  service 'cesi' do
-    action [ :disable, :stop ]
-  end
 end
 
 directory cesi_release_setup_path do
@@ -148,7 +152,9 @@ template "#{cesi_release_setup_path}/cesi.conf" do
     'admin_username': node['cesi']['conf']['admin_username'],
     'admin_password': node['cesi']['conf']['admin_password']
   )
-  notifies :restart, 'poise_service[cesi]', :immediately
+  if is_this_cesi_release_installed
+    notifies :restart, 'poise_service[cesi]', :immediately
+  end
 end
 
 poise_service 'cesi' do
