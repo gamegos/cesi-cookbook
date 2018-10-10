@@ -79,21 +79,36 @@ when 'debian'
     else
       raise 'Not supported ubuntu version.'
     end
+  when 'debian'
+    if node['platform_version'].to_f >= 8.0
+      python_runtime '3'
+    else
+      raise 'Not supported debian version.'
+    end
   else
     raise 'We support only ubuntu in debian-ish platform.'
   end
 when 'rhel'
   # do things on RHEL platforms (redhat, centos, etc)
-  yum_package 'epel-release' do
-    action :install
-  end
-  python_runtime '3.6' do
-    provider :system
-    options package_name: 'python36'
-  end
-  link '/usr/bin/python3' do
-    to      '/usr/bin/python36'
-    only_if 'test -f /usr/bin/python36'
+  case node['platform']
+  when 'centos'
+    if node['platform_version'].to_f >= 7.0
+      yum_package 'epel-release' do
+        action :install
+      end
+      python_runtime '3.6' do
+        provider :system
+        options package_name: 'python36'
+      end
+      link '/usr/bin/python3' do
+        to      '/usr/bin/python36'
+        only_if 'test -f /usr/bin/python36'
+      end
+    else
+      raise 'Not supported centos version.'
+    end
+  else
+    raise 'We support only centos in RHEL platforms.'
   end
 else
   raise 'Not supported platform.'

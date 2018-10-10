@@ -7,7 +7,8 @@ long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version '0.1.0'
 chef_version '>= 12.14' if respond_to?(:chef_version)
 
-supports 'ubuntu', '>= 16.04'
+supports 'debian', '>= 8.0'
+supports 'ubuntu', '>= 14.04'
 supports 'centos', '>= 7.0'
 
 # The `issues_url` points to the location where issues for this cookbook are
@@ -22,6 +23,6 @@ issues_url 'https://github.com/gamegos/cesi-cookbook/issues'
 #
 source_url 'https://github.com/gamegos/cesi-cookbook'
 
-depends 'tar'
-depends 'poise-python'
-depends 'poise-service'
+depends 'tar', '~> 2.2.0'
+depends 'poise-python', '~> 1.7.0'
+depends 'poise-service', '~> 1.5.2'

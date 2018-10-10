@@ -7,7 +7,8 @@ This cookbook installs and configures [CeSI](https://github.com/gamegos/cesi). W
 ## Platforms
 
 - Ubuntu 14.04+
-- Centos 7+
+- Centos 8+
+- Debian 7+
 
 ## Chef
 
