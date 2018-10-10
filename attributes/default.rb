@@ -14,7 +14,7 @@ default['cesi']['conf'] = {
   'theme': 'superhero',
   'debug': 'False',
   'auto_reload': 'False',
-  'admin_username': 'admin2',
+  'admin_username': 'admin',
   'admin_password': 'admin',
 }
 
