@@ -1,6 +1,6 @@
 # CeSI Cookbook
 
-This cookbook installs and configures [CeSI](https://github.com/gamegos/cesi).
+This cookbook installs and configures [CeSI](https://github.com/gamegos/cesi). We support 2.3+ versions of cesi.
 
 # Requirements
 
@@ -15,6 +15,7 @@ This cookbook installs and configures [CeSI](https://github.com/gamegos/cesi).
 
 ## Cookbooks
 
+- tar
 - poise-python
 - poise-service
 
@@ -27,7 +28,7 @@ This cookbook installs and configures [CeSI](https://github.com/gamegos/cesi).
 - `['cesi']['user']` - Run cesi with this user - Default value is 'cesi'
 - `['cesi']['group']` - Run cesi with this group - Default value is 'cesi'
 - `['cesi']['setup_path']` - Download CESI to this directory - Default value is '/opt/cesi'
-- `['cesi']['version']` - Install this version of CeSI - Default value is '2.2'
+- `['cesi']['version']` - Install this version of CeSI - Default value is '2.3'
 - `['cesi']['conf']['database']` - Create sqlite database in this path - Default value is 'userinfo.db'
 - `['cesi']['conf']['activity_log']` - File path for CeSI activity logs - Default value is 'activity_log'
 - `['cesi']['conf']['host']` - Host of the cesi application - Default value is '0.0.0.0'.

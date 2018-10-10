@@ -4,18 +4,23 @@
 #
 # Copyright:: 2018, The Authors, All Rights Reserved.
 
+node.override['poise-python']['options']['pip_version'] = '18.0'
+
 cesi_user = node['cesi']['user']
 cesi_group = node['cesi']['group']
+cesi_version = node['cesi']['version']
 cesi_setup_path = node['cesi']['setup_path']
 cesi_database = node['cesi']['conf']['database']
 cesi_activity_log = node['cesi']['conf']['activity_log']
 cesi_nodes = node['cesi']['conf']['nodes']
 
+cesi_release_setup_path = "#{cesi_setup_path}/#{cesi_version}"
+
 unless cesi_database.start_with?('/')
-  cesi_database = "#{cesi_setup_path}/#{cesi_database}"
+  cesi_database = "#{cesi_release_setup_path}/#{cesi_database}"
 end
 unless cesi_activity_log.start_with?('/')
-  cesi_activity_log = "#{cesi_setup_path}/#{cesi_activity_log}"
+  cesi_activity_log = "#{cesi_release_setup_path}/#{cesi_activity_log}"
 end
 
 group cesi_group
@@ -27,42 +32,26 @@ user cesi_user do
   home cesi_setup_path
 end
 
-directory cesi_setup_path do
-  user cesi_user
+if File.exist?(cesi_setup_path) && !File.exist?(cesi_release_setup_path)
+  service 'cesi' do
+    action [ :disable, :stop ]
+  end
+end
+
+directory cesi_release_setup_path do
+  owner cesi_user
   group cesi_group
   recursive true
+  notifies :extract, "tar_extract[#{node['cesi']['release']['url']}]", :immediately
 end
 
-remote_file "#{cesi_setup_path}/cesi.tar.gz" do
-  source node['cesi']['release']['url']
-  owner cesi_user
-  group cesi_group
-  not_if { File.exist?("#{cesi_setup_path}/cesi.tar.gz") }
-end
-
-execute 'extract-cesi-release' do
+tar_extract node['cesi']['release']['url'] do
   user cesi_user
   group cesi_group
-  cwd cesi_setup_path
-  command 'tar xzvf cesi.tar.gz -C . --strip-components=1'
-  not_if { File.exist?("#{cesi_setup_path}/cesi") }
-end
-
-cesi_ui_path = "#{cesi_setup_path}/cesi/ui"
-
-remote_file "#{cesi_ui_path}/build.tar" do
-  source node['cesi']['release']['build-ui']
-  owner cesi_user
-  group cesi_group
-  not_if { File.exist?("#{cesi_ui_path}/build.tar") }
-end
-
-execute 'extract-build-ui-tar-file' do
-  user cesi_user
-  group cesi_group
-  cwd cesi_ui_path
-  command 'tar -xvf build.tar'
-  not_if { File.exist?("#{cesi_ui_path}/build") }
+  target_dir cesi_release_setup_path
+  creates "#{cesi_release_setup_path}/README.md"
+  tar_flags [ '-P', '--strip-components 1' ]
+  action :nothing
 end
 
 # Install python3
@@ -107,13 +96,13 @@ else
 end
 
 python_virtualenv 'cesi.virtualenv' do
-  path "#{cesi_setup_path}/.venv"
+  path "#{cesi_release_setup_path}/.venv"
   user cesi_user
   group cesi_group
 end
 
 pip_requirements 'cesi.requirements' do
-  path "#{cesi_setup_path}/requirements.txt"
+  path "#{cesi_release_setup_path}/requirements.txt"
   user cesi_user
   group cesi_group
 end
@@ -141,7 +130,7 @@ unless supervisor_nodes.empty?
 end
 
 # Generate cesi.conf file
-template "#{cesi_setup_path}/cesi.conf" do
+template "#{cesi_release_setup_path}/cesi.conf" do
   source 'cesi.conf.erb'
   mode 0644
   owner cesi_user
@@ -159,9 +148,10 @@ template "#{cesi_setup_path}/cesi.conf" do
     'admin_username': node['cesi']['conf']['admin_username'],
     'admin_password': node['cesi']['conf']['admin_password']
   )
+  notifies :restart, 'poise_service[cesi]', :immediately
 end
 
 poise_service 'cesi' do
-  command "#{cesi_setup_path}/.venv/bin/python3 #{cesi_setup_path}/cesi/run.py --config #{cesi_setup_path}/cesi.conf"
+  command "#{cesi_release_setup_path}/.venv/bin/python3 #{cesi_release_setup_path}/cesi/run.py --config #{cesi_release_setup_path}/cesi.conf"
   user cesi_user
 end
