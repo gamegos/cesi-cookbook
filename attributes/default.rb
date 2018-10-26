@@ -15,26 +15,27 @@ default['cesi']['conf'] = {
   'debug': 'False',
   'auto_reload': 'False',
   'admin_username': 'admin',
-  'admin_password': 'admin',
+  'admin_password': 'admin'
 }
 
 default['cesi']['conf']['nodes'] = []
-=begin
-[{
-  'name': 'node1',
-  'environment': 'aws',
-  'username': '',
-  'password': '',
-  'host': 'localhost',
-  'port': '9001',
-}, {
-  'name': 'node2',
-  'environment': 'azure',
-  'username': '',
-  'password': '',
-  'host': 'localhost',
-  'port': '9002',
-}]
-=end
+# [{
+#   'name': 'node1',
+#   'environment': 'aws',
+#   'username': '',
+#   'password': '',
+#   'host': 'localhost',
+#   'port': '9001',
+# }, {
+#   'name': 'node2',
+#   'environment': 'azure',
+#   'username': '',
+#   'password': '',
+#   'host': 'localhost',
+#   'port': '9002',
+# }]
 
-default['cesi']['supervisors_rolename'] = 'supervisor'
+default['cesi']['supervisors'] = {
+  'rolename': 'supervisor',
+  'cloud_ipaddress': 'local_ipv4'
+}

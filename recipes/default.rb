@@ -29,7 +29,7 @@ is_this_cesi_release_installed = File.exist?(cesi_release_setup_path)
 # Stop cesi service, when we are upgrading cesi.
 if is_cesi_installed_once && !is_this_cesi_release_installed
   service 'cesi' do
-    action [ :disable, :stop ]
+    action %i[disable stop]
   end
 end
 
@@ -54,7 +54,7 @@ tar_extract node['cesi']['release']['url'] do
   group cesi_group
   target_dir cesi_release_setup_path
   creates "#{cesi_release_setup_path}/README.md"
-  tar_flags [ '-P', '--strip-components 1' ]
+  tar_flags ['-P', '--strip-components 1']
   action :nothing
 end
 
@@ -128,30 +128,35 @@ end
 
 # Search All Supervisor Nodes
 supervisor_nodes = []
-all_supervisor_nodes = search('node', "role:#{node['cesi']['supervisors_rolename']}")
+supervisors_rolename = node['cesi']['supervisors']['rolename']
+all_supervisor_nodes = search('node', "role:#{supervisors_rolename}")
 
 unless all_supervisor_nodes.empty?
   all_supervisor_nodes.each do |n|
+    if n.key?(:cloud)
+      ipaddress_configuration = node['cesi']['supervisors']['cloud_ipaddress']
+      host = n['cloud'][ipaddress_configuration]
+    else
+      host = n['ipaddress']
+    end
     supervisor_node = {
       'name': n['hostname'],
       'environment': '',
+      'host': host,
       'username': n['supervisor']['inet_http_server']['inet_username'],
       'password': n['supervisor']['inet_http_server']['inet_password'],
-      'host': n['fqdn'],
-      'port': n['supervisor']['inet_http_server']['inet_port'].split(':')[1],
+      'port': n['supervisor']['inet_http_server']['inet_port'].split(':')[1]
     }
     supervisor_nodes.push(supervisor_node)
   end
 end
 
-unless supervisor_nodes.empty?
-  cesi_nodes = supervisor_nodes
-end
+cesi_nodes = supervisor_nodes unless supervisor_nodes.empty?
 
 # Generate cesi.conf file
 template "#{cesi_release_setup_path}/cesi.conf" do
   source 'cesi.conf.erb'
-  mode 0644
+  mode '0644'
   owner cesi_user
   group cesi_group
   variables(
@@ -173,6 +178,8 @@ template "#{cesi_release_setup_path}/cesi.conf" do
 end
 
 poise_service 'cesi' do
-  command "#{cesi_release_setup_path}/.venv/bin/python3 #{cesi_release_setup_path}/cesi/run.py --config #{cesi_release_setup_path}/cesi.conf"
+  command "#{cesi_release_setup_path}/.venv/bin/python3 "\
+          "#{cesi_release_setup_path}/cesi/run.py "\
+          "--config #{cesi_release_setup_path}/cesi.conf"
   user cesi_user
 end
