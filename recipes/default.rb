@@ -133,7 +133,8 @@ all_supervisor_nodes = search('node', "role:#{supervisors_rolename}")
 
 unless all_supervisor_nodes.empty?
   all_supervisor_nodes.each do |n|
-    if n.key?(:cloud)
+    cloud = n.fetch(:cloud, nil)
+    if cloud
       ipaddress_configuration = node['cesi']['supervisors']['cloud_ipaddress']
       host = n['cloud'][ipaddress_configuration]
     else
