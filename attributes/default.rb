@@ -1,41 +1,24 @@
-# Defaults
 default['cesi']['user'] = 'cesi'
 default['cesi']['group'] = 'cesi'
+default['cesi']['version'] = '2.6.5'
 default['cesi']['setup_path'] = '/opt/cesi'
-default['cesi']['version'] = '2.3'
-default['cesi']['release']['url'] = "https://github.com/gamegos/cesi/releases/download/v#{default['cesi']['version']}/cesi.tar.gz"
 
 default['cesi']['conf'] = {
-  'database': 'userinfo.db',
-  'activity_log': 'activity_log',
-  'host': '0.0.0.0',
-  'port': '5000',
-  'name': 'CeSI',
-  'theme': 'superhero',
-  'debug': 'False',
-  'auto_reload': 'False',
   'admin_username': 'admin',
-  'admin_password': 'admin'
+  'admin_password': 'admin',
+  'database_uri': 'sqlite:///users.db',
+  'activity_log': 'activity.log'
 }
-
-default['cesi']['conf']['nodes'] = []
-# [{
-#   'name': 'node1',
-#   'environment': 'aws',
-#   'username': '',
-#   'password': '',
-#   'host': 'localhost',
-#   'port': '9001',
-# }, {
-#   'name': 'node2',
-#   'environment': 'azure',
-#   'username': '',
-#   'password': '',
-#   'host': 'localhost',
-#   'port': '9002',
-# }]
 
 default['cesi']['supervisors'] = {
   'rolename': 'supervisor',
   'cloud_ipaddress': 'local_ipv4'
+}
+
+default['cesi']['service'] = {
+  'name': 'cesi',
+  'host': '0.0.0.0',
+  'port': 5000,
+  'debug': false,
+  'auto_reload': false
 }

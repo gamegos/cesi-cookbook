@@ -1,0 +1,36 @@
+# This is the main CeSI toml configuration file. It contains CeSI web application and
+# supervisord information to connect
+
+# This is the CeSI's own configuration.
+[cesi]
+database = "<%= @database_uri %>" # Database uri
+# Etc.
+#database = "postgres://< user >:< password >@localhost:5432/< database_name >"
+#database = "mysql+pymysql://< user >:< password >@localhost:3306/< database_name >"
+activity_log = "<%= @activity_log %>"   # File path for CeSI logs
+admin_username = "<%= @admin_username %>"     # Username of admin user
+admin_password = "<%= @admin_password %>"    # Password of admin user
+
+# This is the definition section for new supervisord node.
+# [[nodes]]
+# name = "api"          # (String) Unique name for supervisord node.
+# environment = ""      # (String) The environment name provides logical grouping of supervisord nodes. It can be used as filtering option in the UI.
+# username = ""         # (String) Username of the XML-RPC interface of supervisord Set nothing if no username is configured
+# password = ""         # (String) Password of the XML-RPC interface of supervisord. Set nothing if no username is configured
+# host = "127.0.0.1"    # (String) Host of the XML-RPC interface of supervisord
+# port = "9001"         # (String) Port of the XML-RPC interface of supervisord
+
+# Supervisord nodes
+
+<% if @nodes.respond_to?("each") %>
+  <% @nodes.each do |n| %>
+[[nodes]]
+name = "<%= n[:name] %>"
+environment = "<%= n[:environment] %>"
+username = "<%= n[:username] %>"
+password = "<%= n[:password] %>"
+host = "<%= n[:host] %>"
+port = "<%= n[:port] %>"
+
+  <% end %>
+<% end %>
