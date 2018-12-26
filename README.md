@@ -123,7 +123,6 @@ This resource creates the Cesi service for your systems.
 
 | Property      |   Type    | Default Value | Description                                   |
 | ------------- | :-------: | :-----------: | --------------------------------------------- |
-| `name`        | `String`  |     `''`      | Name of the service                           |
 | `host`        | `String`  |  `'0.0.0.0'`  | The host cesi is running on                   |
 | `port`        | `Integer` |    `5000`     | The port cesi is running on                   |
 | `debug`       | `Boolean` |    `false`    | Activate debug mode of the cesi backend       |
