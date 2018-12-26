@@ -17,3 +17,10 @@ action :create do
     user lazy { node.run_state['cesi']['user'] }
   end
 end
+
+action :reload do
+  with_run_context :root do
+    find_resource(:poise_service, 'cesi') do
+    end.run_action(:reload)
+  end
+end

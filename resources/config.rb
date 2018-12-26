@@ -52,5 +52,6 @@ action :create do
       'admin_username': new_resource.admin_username,
       'admin_password': new_resource.admin_password
     )
+    notifies :reload, 'cesi_service[cesi]', :delayed
   end
 end
