@@ -30,7 +30,7 @@ action :create do
   # Stop cesi service, when we are upgrading cesi.
   if is_cesi_installed_once && !is_this_cesi_release_installed
     service 'cesi' do
-      action %i[disable stop]
+      action %w(disable stop)
     end
   end
 

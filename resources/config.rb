@@ -29,7 +29,7 @@ action :create do
         'host': host,
         'username': n['supervisor']['inet_http_server']['inet_username'],
         'password': n['supervisor']['inet_http_server']['inet_password'],
-        'port': n['supervisor']['inet_http_server']['inet_port'].split(':')[1]
+        'port': n['supervisor']['inet_http_server']['inet_port'].split(':')[1],
       }
       supervisor_nodes.push(supervisor_node)
     end
