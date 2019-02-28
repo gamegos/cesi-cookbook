@@ -1,5 +1,5 @@
 # To learn more about Custom Resources, see https://docs.chef.io/custom_resources.html
-property :name, String, name_property: true
+property :node_name, String, name_property: true
 property :environment, String, default: ''
 property :username, String, default: ''
 property :password, String, default: ''
