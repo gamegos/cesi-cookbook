@@ -1,48 +1,51 @@
 driver:
-  name: vagrant
+  name: dokken
+  privileged: true
+
+transport:
+  name: dokken
 
 provisioner:
-  name: chef_zero
-  # You may wish to disable always updating cookbooks in CI or other testing environments.
-  # For example:
-  #   always_update_cookbooks: <%= !ENV['CI'] %>
-  #always_update_cookbooks: true
-  product_name: chef
+  name: dokken
 
 verifier:
   name: inspec
 
 platforms:
   - name: ubuntu-18.04
+    driver:
+      image: dokken/ubuntu-18.04
+      pid_one_command: /bin/systemd
+
   - name: centos-7
+    driver:
+      image: dokken/centos-7
+      pid_one_command: /usr/lib/systemd/systemd
 
 suites:
   - name: default-chef12
-    provisioner:
-      product_version: 12
+    driver:
+      chef_version: 12
     run_list:
       - recipe[test::default]
     verifier:
       inspec_tests:
         - test/integration/default
-    attributes:
 
   - name: default-chef13
-    provisioner:
-      product_version: 13
+    driver:
+      chef_version: 13
     run_list:
       - recipe[test::default]
     verifier:
       inspec_tests:
         - test/integration/default
-    attributes:
 
   - name: default-chef14
-    provisioner:
-      product_version: 14
+    driver:
+      chef_version: 14
     run_list:
       - recipe[test::default]
     verifier:
       inspec_tests:
         - test/integration/default
-    attributes:
