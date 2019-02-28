@@ -6,6 +6,5 @@ This file is used to list changes made in each version of the cesi cookbook.
 
 Initial release.
 
-- change 0
-- change 1
+- Install the CeSI 2.6.7+
 
