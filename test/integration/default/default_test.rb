@@ -5,6 +5,9 @@
 # The Inspec reference, with examples and extensive documentation, can be
 # found at http://inspec.io/docs/reference/resources/
 
+cesi_version = '2.6.5'
+setup_path = "/opt/cesi/#{cesi_version}"
+
 unless os.windows?
   describe group('cesi') do
     it { should exist }
@@ -25,17 +28,17 @@ unless os.windows?
     its('type') { should eq :directory }
   end
 
-  describe file('/opt/cesi/.git') do
+  describe file("#{setup_path}/.git") do
     it { should exist }
     its('type') { should eq :directory }
   end
 
-  describe file('/opt/cesi/cesi/run.py') do
+  describe file("#{setup_path}/cesi/run.py") do
     it { should exist }
     its('mode') { should cmp '0755' }
   end
 
-  describe file('/opt/cesi/cesi.conf') do
+  describe file("#{setup_path}/cesi.conf.toml") do
     it { should exist }
   end
 
