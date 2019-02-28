@@ -1,5 +1,7 @@
 # CeSI Cookbook
 
+[![Build Status](https://travis-ci.org/gamegos/cesi-cookbook.svg?branch=master)](https://travis-ci.org/gamegos/cesi-cookbook)
+
 This cookbook installs and configures [CeSI](https://github.com/gamegos/cesi). We support 2.6+ versions of cesi.
 
 # Requirements
