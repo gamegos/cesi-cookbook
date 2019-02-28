@@ -19,10 +19,6 @@ unless os.windows?
     its('home') { should eq '/opt/cesi' }
   end
 
-  describe command('git') do
-    it { should exist }
-  end
-
   describe file('/opt/cesi') do
     it { should exist }
     its('type') { should eq :directory }
