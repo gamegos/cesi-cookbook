@@ -18,9 +18,9 @@ action :create do
   end
 end
 
-action :reload do
+action :restart do
   with_run_context :root do
     find_resource(:poise_service, 'cesi') do
-    end.run_action(:reload)
+    end.run_action(:restart)
   end
 end
