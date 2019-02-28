@@ -34,9 +34,9 @@ action :create do
     end
   end
 
-  group cesi_group
+  declare_resource(:group, cesi_group)
 
-  user cesi_user do
+  declare_resource(:user, cesi_user) do
     manage_home false
     shell '/bin/nologin'
     gid cesi_group

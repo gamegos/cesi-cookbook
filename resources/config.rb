@@ -38,7 +38,7 @@ action :create do
   cesi_nodes = supervisor_nodes unless supervisor_nodes.empty?
 
   # Generate cesi.conf.toml file
-  template 'cesi.conf.toml' do
+  declare_resource(:template, 'cesi.conf.toml') do
     cookbook new_resource.template
     path lazy { "#{node.run_state['cesi']['release_setup_path']}/cesi.conf.toml" }
     source 'cesi.conf.toml.erb'
