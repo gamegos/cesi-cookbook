@@ -1,6 +1,6 @@
 default['cesi']['user'] = 'cesi'
 default['cesi']['group'] = 'cesi'
-default['cesi']['version'] = '2.6.5'
+default['cesi']['version'] = '2.6.7'
 default['cesi']['setup_path'] = '/opt/cesi'
 
 default['cesi']['conf'] = {

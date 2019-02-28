@@ -5,7 +5,7 @@
 # The Inspec reference, with examples and extensive documentation, can be
 # found at http://inspec.io/docs/reference/resources/
 
-cesi_version = '2.6.5'
+cesi_version = '2.6.7'
 setup_path = "/opt/cesi/#{cesi_version}"
 
 unless os.windows?

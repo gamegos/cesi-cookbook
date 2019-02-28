@@ -2,19 +2,19 @@
 
 [![Build Status](https://travis-ci.org/gamegos/cesi-cookbook.svg?branch=master)](https://travis-ci.org/gamegos/cesi-cookbook)
 
-This cookbook installs and configures [CeSI](https://github.com/gamegos/cesi). We support 2.6+ versions of cesi.
+This cookbook installs and configures [CeSI](https://github.com/gamegos/cesi). We support 2.6.7+ versions of cesi.
 
 # Requirements
 
 ## Platforms
 
 - Ubuntu 14.04+
-- Centos 8+
+- Centos 7+
 - Debian 7+
 
 ## Chef
 
-- Chef 13+
+- Chef 12+
 
 ## Cookbooks
 
@@ -27,7 +27,7 @@ This cookbook installs and configures [CeSI](https://github.com/gamegos/cesi). W
 Here's a quick example of installing the CeSI.
 
 ```ruby
-cesi_install '2.6.5'
+cesi_install '2.6.7'
 
 cesi_config 'supervisor'
 
@@ -44,7 +44,7 @@ cesi_service 'cesi'
 | ------------------------------------------------ | :--------------------: | ------------------------------------------------------------------------------------------ |
 | `node['cesi']['user']`                           |        `'cesi'`        | Run cesi with this user                                                                    |
 | `node['cesi']['group']`                          |        `'cesi'`        | Run cesi with this group                                                                   |
-| `node['cesi']['version']`                        |       `'2.6.5'`        | Install this version of CeSI                                                               |
+| `node['cesi']['version']`                        |       `'2.6.7'`        | Install this version of CeSI                                                               |
 | `node['cesi']['setup_path']`                     |     `'/opt/cesi'`      | Download CeSI to this directory                                                            |
 | `node['cesi']['conf']['database_uri']`           | `'sqlite:///users.db'` | Use this database uri for CeSI database operations                                         |
 | `node['cesi']['conf']['activity_log']`           |    `'activity_log'`    | File path for CeSI activity logs                                                           |
@@ -68,7 +68,7 @@ This resource installs the CeSI.
 
 | Property      |   Type    | Default Value | Description                     |
 | ------------- | :-------: | :-----------: | ------------------------------- |
-| `version`     | `String`  |   `'2.6.5'`   | The version of cesi             |
+| `version`     | `String`  |   `'2.6.7'`   | The version of cesi             |
 | `user`        | `String`  |   `'cesi'`    | The user of cesi                |
 | `group`       | `Integer` |   `'cesi'`    | The group of cesi               |
 | `setup_path`  | `String`  |   `'admin'`   | Download CeSI to this directory |
@@ -78,11 +78,11 @@ This resource installs the CeSI.
 #### Examples
 
 ```ruby
-cesi_install '2.6.5' do
+cesi_install '2.6.7' do
   user 'cesi'
   group 'cesi'
   setup_path '/opt/cesi'
-  release_url 'https://gitlab.example.com/gamegos/cesi/releases/v2.6.5/cesi-extended.tar.gz'
+  release_url 'https://gitlab.example.com/gamegos/cesi/releases/v2.6.7/cesi-extended.tar.gz'
   action :create
 end
 ```
@@ -108,8 +108,8 @@ This resource defines configurations of the CeSI.
 ```ruby
 cesi_config 'supervisor' do
   supervisors_rolename 'supervisor'
-  database_uri 'sqlite:////opt/cesi/2.6.5/users.db'
-  activity_log '/opt/cesi/2.6.5/activity.log'
+  database_uri 'sqlite:////opt/cesi/2.6.7/users.db'
+  activity_log '/opt/cesi/2.6.7/activity.log'
   admin_username 'admin'
   admin_password 'admin'
   cloud_ipaddress 'local_ipv4'
